@@ -7,21 +7,22 @@
     const fileInput = document.querySelector("input[type='file']");
 
     /***** DOM *****/
-    let $buttonPNG = document.querySelector("button#png"),
-    $select = document.querySelector("select"),
-    $buttonClear = document.querySelector("button#clear"),
+    let $select = {},
     $figures = document.querySelector("figures"),
-    $showTitle = document.querySelector("#showtitle"),
-    $showSource = document.querySelector("#showsource"),
-    $showFiligrane = document.querySelector("#showfiligrane");
+    $showTitle = {},
+    $showSource = {},
+    $showFiligrane = {};
+
+    $select.value = "english";
+    $showTitle.checked = false;
+    $showSource.checked = false;
+    $showFiligrane.checked = false;
 
     /***** bind events *****/
-   
-    $buttonPNG.addEventListener("click", saveToPng);
-    $buttonClear.addEventListener("click", clearChart);
 
     fileInput.addEventListener("change", async (e) => {
         const selectedFiles = e.target.files;
+        //console.log(selectedFiles)
         if (selectedFiles.length > 0) {
             // Process each selected file
             for (const file of selectedFiles) {
@@ -60,7 +61,6 @@
             settings_singleBarOffset = parserSettings(data[7]);
             settings_2Bar = parserSettings(data[8]);
             settings_map = data[9];
-            
             /***** initiate *****/
         });
 
@@ -286,5 +286,37 @@
         .text("Institut de l'énergie Trottier")
         .attr('transform', 'translate('+svg.viewBox.animVal.width/2+','+svg.viewBox.animVal.height/2+')rotate(-30)')
     }
+    
+    
+    // This is a function to create a custom File object
+function createFileFromText(content, fileName) {
+    const blob = new Blob([content], { type: 'text/plain' });
+    const file = new File([blob], fileName, { type: 'text/plain' });
+    return file;
+  }
+  
+  // Usage of the createFileFromText function after fetching the content
+  fetch("./data/final/chapitre3/fig3.1.txt")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.arrayBuffer(); // This returns the content of the file as text
+    })
+    .then(buffer => new TextDecoder("utf-16le").decode(buffer)) // Decode in UTF8
+    .then((fileContent) => {
+      // Create a custom File object with the fetched content
+      const fileName = "fig3.1.txt"; // Provide the desired file name
+      const customFile = createFileFromText(fileContent, fileName);
+  
+      // Now you have a custom File object that you can use like a FileInput result
+      fileLoad(customFile);
+     
+      // You can then use this customFile with the same logic as you would with a FileInput
+      // For example, you can call fileLoad(customFile) if fileLoad expects a File object.
+    })
+    .catch((error) => {
+      console.error("Error loading the file:", error);
+    });
 
 })(d3);

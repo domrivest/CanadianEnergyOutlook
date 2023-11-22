@@ -187,7 +187,6 @@ function line(data, metadata, colors, settings, language, chartContainer) {
     // drawing dots
     chart.selectAll("g.line")
     .each(function(d, i) {
-            console.log(d)
             d3.select(this)
             .selectAll("rect")
             .data(data_[i])//.filter(g => !g[attrList[i]].toString().includes("-")))
