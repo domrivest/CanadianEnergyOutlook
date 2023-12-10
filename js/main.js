@@ -1,14 +1,15 @@
 "use strict";
-
+document.addEventListener('DOMContentLoaded', function () { 
+            setTimeout(function () {}, 5000); // Delay of 5 seconds 
+       
 (function (d3) {
     /***** settings *****/
-    let figures, currentFocus, colors, settings_default, setting_3Bar, setting_3BarOffset, setting_5BarOffset, setting_singleBar,
+    let figures, colors, settings_default, setting_3Bar, setting_3BarOffset, setting_5BarOffset, setting_singleBar,
     settings_singleBarOffset, settings_2Bar, settings_map, language;
-    const fileInput = document.querySelector("input[type='file']");
 
     /***** DOM *****/
     let $select = {},
-    $figures = document.querySelector("figures"),
+    $figures = document.querySelectorAll(".figure"),
     $showTitle = {},
     $showSource = {},
     $showFiligrane = {};
@@ -18,32 +19,19 @@
     $showSource.checked = false;
     $showFiligrane.checked = false;
 
-    /***** bind events *****/
-
-    fileInput.addEventListener("change", async (e) => {
-        const selectedFiles = e.target.files;
-        //console.log(selectedFiles)
-        if (selectedFiles.length > 0) {
-            // Process each selected file
-            for (const file of selectedFiles) {
-                // Handle each file as needed
-                fileLoad(file);
-            }
-        }
-    });
-
     /***** loading data *****/
+    const wordpressPath = "https://canadianenergyoutlook779.e.wpstage.net/wp-content/themes/hello-elementor/generateurGraphs/test1";
     var promises = [];
-    promises.push(d3.csv("./data/figures.csv")); 
-    promises.push(d3.csv("./data/colors.csv"));
-    promises.push(d3.csv("./data/setting_default.csv")); // 2
-    promises.push(d3.csv("./data/setting_3Bar.csv")); // 3 
-    promises.push(d3.csv("./data/setting_3BarOffset.csv")); // 4
-    promises.push(d3.csv("./data/setting_5BarOffset.csv")); // 5
-    promises.push(d3.csv("./data/setting_singleBar.csv")); // 6
-    promises.push(d3.csv("./data/setting_singleBarOffset.csv")); // 7
-    promises.push(d3.csv("./data/setting_2Bar.csv")); // 7
-    promises.push(d3.csv("./data/settings_map.csv")); // 8
+    promises.push(d3.csv(wordpressPath+"/data/figures.csv")); 
+    promises.push(d3.csv(wordpressPath+"/data/colors.csv"));
+    promises.push(d3.csv(wordpressPath+"/data/setting_default.csv")); // 2
+    promises.push(d3.csv(wordpressPath+"/data/setting_3Bar.csv")); // 3 
+    promises.push(d3.csv(wordpressPath+"/data/setting_3BarOffset.csv")); // 4
+    promises.push(d3.csv(wordpressPath+"/data/setting_5BarOffset.csv")); // 5
+    promises.push(d3.csv(wordpressPath+"/data/setting_singleBar.csv")); // 6
+    promises.push(d3.csv(wordpressPath+"/data/setting_singleBarOffset.csv")); // 7
+    promises.push(d3.csv(wordpressPath+"/data/setting_2Bar.csv")); // 7
+    promises.push(d3.csv(wordpressPath+"/data/settings_map.csv")); // 8
 
     Promise.all(promises)
     
@@ -65,46 +53,8 @@
         });
 
     /***** functions *****/
-
-
-    function saveToPng() {
-        console.log(fileInput);
-        if(language == "label_en"){language = "en"}
-        else if(language == "label_fr"){language = "fr"}
-        let containers = document.querySelectorAll(".chart-container");
-        containers.forEach((container) => {
-            // Get file name based on the container class
-            let fileName = container.classList[1].replace(".txt", "")
-            let svg = container.querySelector("svg");
-            let top = 0;
-            let height = svg.viewBox.baseVal.height;
-            if (svg.querySelector(".figureTitle")) { // Rectifier la hauteur si titre présent
-                top = -100/2;
-                height += 100; 
-            }
-            else if (!svg.querySelector(".figureTitle")&& svg.querySelector(".source")) { // Rectifier la hauteur si source présente (mais pas titre)
-                top = -20/2;
-                height += 20; 
-            }
-            saveSvgAsPng(svg, `${language}_${fileName}.png`, {scale: 8, backgroundColor: "#FFFFFF", height: height, top:top})
-        })
-    }
-
-    function clearChart() {
-        // Find all chart containers and remove them
-        const chartContainers = document.querySelectorAll(".chart-container");
-        chartContainers.forEach((container) => {
-            // Remove the chart container, including its contained SVG
-            container.remove();
-        });
     
-        // Clear the input value and reset other elements as needed
-        fileInput.value = "";
-        // Add any additional reset logic here
-        console.clear()
-    }
-    
-    function fileLoad(file) {
+    function fileLoad(file, figure) {
         // Check if the selected file is of the desired type (e.g., text)
         const textType = /text.*/;
         if (file.type.match(textType)) {
@@ -146,7 +96,7 @@
                 // Create a new container for this chart (and add class of title)
                 const chartContainer = document.createElement("div");
                 chartContainer.classList.add("chart-container", file.name.replace(".txt", ""));
-                $figures.appendChild(chartContainer);
+                figure.appendChild(chartContainer);
                 const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
                 chartContainer.appendChild(svg);
 
@@ -289,34 +239,37 @@
     
     
     // This is a function to create a custom File object
-function createFileFromText(content, fileName) {
-    const blob = new Blob([content], { type: 'text/plain' });
-    const file = new File([blob], fileName, { type: 'text/plain' });
-    return file;
-  }
-  
-  // Usage of the createFileFromText function after fetching the content
-  fetch("./data/final/chapitre3/fig3.1.txt")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.arrayBuffer(); // This returns the content of the file as text
+    function createFileFromText(content, fileName) {
+        const blob = new Blob([content], { type: 'text/plain' });
+        const file = new File([blob], fileName, { type: 'text/plain' });
+        return file;
+    }
+
+    $figures.forEach(figure => {
+        // Usage of the createFileFromText function after fetching the content
+        fetch(wordpressPath+figure.classList[1])
+        .then((response) => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.arrayBuffer(); // This returns the content of the file as text
+        })
+        .then(buffer => new TextDecoder("utf-16le").decode(buffer)) // Decode in UTF8
+        .then((fileContent) => {
+        // Create a custom File object with the fetched content
+        const fileName = "fig3.1.txt"; // Provide the desired file name
+        const customFile = createFileFromText(fileContent, fileName);
+    
+        // Now you have a custom File object that you can use like a FileInput result
+        fileLoad(customFile, figure);
+        
+        // You can then use this customFile with the same logic as you would with a FileInput
+        // For example, you can call fileLoad(customFile) if fileLoad expects a File object.
+        })
+        .catch((error) => {
+        console.error("Error loading the file:", error);
+        });
     })
-    .then(buffer => new TextDecoder("utf-16le").decode(buffer)) // Decode in UTF8
-    .then((fileContent) => {
-      // Create a custom File object with the fetched content
-      const fileName = "fig3.1.txt"; // Provide the desired file name
-      const customFile = createFileFromText(fileContent, fileName);
-  
-      // Now you have a custom File object that you can use like a FileInput result
-      fileLoad(customFile);
-     
-      // You can then use this customFile with the same logic as you would with a FileInput
-      // For example, you can call fileLoad(customFile) if fileLoad expects a File object.
-    })
-    .catch((error) => {
-      console.error("Error loading the file:", error);
-    });
 
 })(d3);
+     });
