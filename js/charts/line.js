@@ -179,10 +179,33 @@ function line(data, metadata, colors, settings, language, chartContainer) {
             .attr("transform", `translate(${setting.padding.left + setting.yAxis.width + setting.yAxis.labelMargin + setting.yAxis.labelHeight + setting.yAxis.lineWidth + setting.yTicks.rowMargin}, ${setting.padding.top})`);
     });
 
-    // Adding div for tooltip
-    var div = d3.select(chartContainer).append("div")
-     .attr("class", "tooltip")
-     .style("opacity", 0);
+    // create a tooltip
+    var Tooltip = d3.select(chartContainer)
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    var mouseover = function(d) {
+        Tooltip
+            .style("opacity", 1)
+        d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1)
+        }
+    var mousemove = function(d, i, barData) {
+        Tooltip
+            .html(scaleLabel(d) + " : <br> (" + Math.round(d[Object.keys(d)[1]]) + " " + Object.keys(d)[1] + "; " + Math.round(d[Object.keys(d)[0]]) + metadata.chart.yLabel + ")")
+            .style("left", (d3.mouse(document.body)[0]+5) + "px")
+            .style("top", (d3.mouse(document.body)[1]) + "px")
+        }
+    var mouseleave = function(d) {
+        Tooltip
+            .style("opacity", 0)
+        d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 0.8)
+        }
 
     // drawing dots
     chart.selectAll("g.line")
@@ -199,24 +222,9 @@ function line(data, metadata, colors, settings, language, chartContainer) {
             .attr("cy", d => scaleY(d[Object.keys(d)[0]]))
             .attr("fill", d => scaleColor(referenceNames[i]))
             .attr("transform", `translate(${setting.padding.left + setting.yAxis.width + setting.yAxis.labelMargin + setting.yAxis.labelHeight + setting.yAxis.lineWidth + setting.yTicks.rowMargin}, ${setting.padding.top})`)
-            .on('mouseover', function (d, i) {
-                d3.select(this).transition()
-                    .duration('50')
-                    .attr('opacity', '.85');
-                div.transition()
-                    .duration(50)
-                    .style("opacity", 1);
-                div.html(scaleLabel(d) + " : (" + Math.round(d[Object.keys(d)[1]]) + " " + Object.keys(d)[1] + "; " + Math.round(d[Object.keys(d)[0]]) + metadata.chart.yLabel + ")")
-                    .style("left", (d3.event.pageX + 10) + "px")
-                    .style("top", (d3.event.pageY - 15) + "px");
-        })     .on('mouseout', function (d, i) {
-                d3.select(this).transition()
-                    .duration('50')
-                    .attr('opacity', '1');
-                div.transition()
-                    .duration('50')
-                    .style("opacity", 0);
-        });
+            .on("mouseover", mouseover)
+            .on("mousemove", function (d) {return mousemove(d)})
+            .on("mouseleave", mouseleave)
     });
 }
 

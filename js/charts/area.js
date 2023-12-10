@@ -172,10 +172,33 @@ function area(data, metadata, colors, settings, language, chartContainer) {
     chart.select("g.xGrid")
     .attr("transform", `translate(${setting.padding.left + setting.yAxis.labelHeight + setting.yAxis.labelMargin + setting.yAxis.width + setting.yTicks.rowMargin}, ${setting.padding.top + yAxisHeight})`);
 
-    // Adding div for tooltip
-    var div = d3.select(chartContainer).append("div")
-     .attr("class", "tooltip")
-     .style("opacity", 0);
+    // create a tooltip
+    var Tooltip = d3.select(chartContainer)
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    var mouseover = function(d) {
+    Tooltip
+        .style("opacity", 1)
+    d3.select(this)
+        .style("stroke", "black")
+        .style("opacity", 1)
+    }
+    var mousemove = function(d) {
+    Tooltip
+        .html(d.key + "")
+        .style("left", (d3.mouse(document.body)[0]+5) + "px")
+        .style("top", (d3.mouse(document.body)[1]) + "px")
+    }
+    var mouseleave = function(d) {
+    Tooltip
+        .style("opacity", 0)
+    d3.select(this)
+        .style("stroke", "none")
+        .style("opacity", 0.8)
+    }
 
     //drawing area
     chart.selectAll("g.bar_groups")
@@ -189,23 +212,8 @@ function area(data, metadata, colors, settings, language, chartContainer) {
     .attr("fill", d => scaleColor(d.key))
     .attr("stroke", d => scaleColor(d.key))
     .attr("transform", `translate(${setting.padding.left + setting.yAxis.width + setting.yAxis.labelMargin + setting.yAxis.labelHeight + setting.yAxis.lineWidth + setting.yTicks.rowMargin}, ${setting.padding.top})`)
-    .on('mouseover', function (d, i) {
-        d3.select(this).transition()
-             .duration('50')
-             .attr('opacity', '.85');
-        div.transition()
-             .duration(50)
-             .style("opacity", 1);
-        div.html(scaleLabel(d.key))
-             .style("left", (d3.event.pageX + 10) + "px")
-             .style("top", (d3.event.pageY - 15) + "px");
-   })     .on('mouseout', function (d, i) {
-        d3.select(this).transition()
-             .duration('50')
-             .attr('opacity', '1');
-        div.transition()
-             .duration('50')
-             .style("opacity", 0);
-   });
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
     });
 }

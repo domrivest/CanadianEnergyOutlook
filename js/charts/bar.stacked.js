@@ -143,11 +143,33 @@ function bar_stacked(data, metadata, colors, settings, language, chartContainer)
     chart.select("g.grid")
     .attr("transform", `translate(${setting.padding.left + setting.yAxis.labelHeight + setting.yAxis.labelMargin + setting.yAxis.width + setting.yTicks.rowMargin}, ${setting.padding.top})`);
 
-    // Adding div for tooltip
-    var div = d3.select(chartContainer).append("div")
-     .attr("class", "tooltip")
-     .style("opacity", 0);
-
+    // create a tooltip
+    var Tooltip = d3.select(chartContainer)
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    
+    // Three function that change the tooltip when user hover / move / leave a cell
+    var mouseover = function(d) {
+        Tooltip
+            .style("opacity", 1)
+        d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1)
+        }
+    var mousemove = function(d, barData) {
+        Tooltip
+            .html(scaleLabel(d) + ":<br>" + Math.round(barData[d]))
+            .style("left", (d3.mouse(document.body)[0]+5) + "px")
+            .style("top", (d3.mouse(document.body)[1]) + "px")
+        }
+    var mouseleave = function(d) {
+        Tooltip
+            .style("opacity", 0)
+        d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 0.8)
+        }
     //drawing bars
     chart.append("g")
     .attr("class", "bar_group")
@@ -156,7 +178,7 @@ function bar_stacked(data, metadata, colors, settings, language, chartContainer)
     .enter()
     .append("g")
     .each(function(d, j) {
-        var data = d;
+        var barData = d;
         let y = 0;
         let yPositive = 0;
         let yNegative = 0;
@@ -196,24 +218,9 @@ function bar_stacked(data, metadata, colors, settings, language, chartContainer)
                 
             });
         })
-        .on('mouseover', function (d, i) {
-            d3.select(this).transition()
-                 .duration('50')
-                 .attr('opacity', '.85');
-            div.transition()
-                 .duration(50)
-                 .style("opacity", 1);
-            div.html(scaleLabel(d) + ": " + Math.round(data[d]))
-                 .style("left", (d3.event.pageX + 10) + "px")
-                 .style("top", (d3.event.pageY - 15) + "px");
-       })     .on('mouseout', function (d, i) {
-            d3.select(this).transition()
-                 .duration('50')
-                 .attr('opacity', '1');
-            div.transition()
-                 .duration('50')
-                 .style("opacity", 0);
-       });
+        .on("mouseover", mouseover)
+        .on("mousemove", function (d) {return mousemove(d, barData)})
+        .on("mouseleave", mouseleave)
     });
 
 
