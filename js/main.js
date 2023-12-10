@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $showFiligrane.checked = false;
 
     /***** loading data *****/
-    const wordpressPath = "https://canadianenergyoutlook779.e.wpstage.net/wp-content/themes/hello-elementor/generateurGraphs/test1";
+    const wordpressPath = "/CanadianEnergyOutlook";
     var promises = [];
     promises.push(d3.csv(wordpressPath+"/data/figures.csv")); 
     promises.push(d3.csv(wordpressPath+"/data/colors.csv"));
@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $figures.forEach(figure => {
         // Usage of the createFileFromText function after fetching the content
-        fetch(wordpressPath+figure.classList[1])
+        fetch(wordpressPath+figure.classList[1].substring(1))
         .then((response) => {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
