@@ -285,7 +285,6 @@ Usine avec CCS,Usines avec CSC,Plants with CCS,#5487a4
 Voitures,Voitures,Cars,#60613b
 Waste,Déchets,Waste,#7b3a38
 Water Heating,Production d'eau chaude,Water heating,#77dba4
-Water heating,Production d'eau chaude,Water heating,#ffffff
 Wind,Éolien,Wind,#bcdbf4
 Wood,Bois,Wood,#ca9e67
 Wood and spent pulping liquor,Bois et liqueur résiduaire,Wood and spent pulping liquor,#7b3a38
@@ -293,3 +292,15 @@ From CCS in industry,De la CSC en industrie,From CCS in industry,#13b157
 From CCS in energy production,De la CSC dans la production d'énergie,From CCS in energy production,#a0bb50
 From CCS in electricity production,De la CSC dans la production d'électricité,From CCS in electricity production,#9bd4dc
 From DAC,De l'EDA,From DAC,#8451bd
+Chauffage de l'eau,Chauffage de l'eau,Water heating,#77dba4
+Climatisation,Climatisation des bâtiments,Space Cooling,#3d6107
+Éclairage,Éclairage,Lighting,#ffe36d
+Sécheuse à linge,Sécheuse à linge,Clothes dryer,#ea5530
+Cuisson,Cuisson,Cooking,#b1900a
+Laveuse à linge,Laveuse à linge,Clothes washer,#9bd4dc
+Lave-Vaiselle,Lave-Vaiselle,Dishwasher,#e08787
+Congélateur,Congélateur,Freezer,#5487a4
+Réfrigérateur,Réfrigérateur,Refrigirator,#9bdb9a
+Autres appareils,Autres appareils,Other applicances,#f39200
+Équipement auxiliaire,Équipement auxiliaire,Auxiliary equipment,#c75833
+Moteur auxiliaire,Moteur auxiliaire,Auxiliary motor,#bff5c3
