@@ -1,7 +1,7 @@
-﻿variable,label_fr,label_en,color
-1998,1998,1998,#5487a4
-2008,2008,2008,#88b04b
-2018,2018,2018,#ea5530
+variable,label_fr,label_en,color
+2000,2000,2000,#5487a4
+2010,2010,2010,#88b04b
+2020,2020,2020,#ea5530
 1990 (energy),1990 (lié à l'énergie),1990 (energy),#5487a4
 1990 (non-energy),1990 (non énergétique ),1990 (non-energy),#a9c4d3
 "1990 (oil & gas, refineries, fugitive sources)","1990 (pétrole, gaz, raffinage, incluant sources fugitives)","1990 (oil & gas, refineries, fugitive sources)",#5487a4
@@ -10,14 +10,14 @@
 2005 (non-energy),2005 (non énergétique),2005 (non-energy),#c5d9a7
 "2005 (oil & gas, refineries, fugitive sources)","2005 (pétrole, gaz, raffinage, incluant sources fugitives)","2005 (oil & gas, refineries, fugitive sources)",#88b04b
 2005 (other),2005 (autre),2005 (other),#c5d9a7
-2019 (energy),2019 (lié à l'énergie),2019 (energy),#ea5530
-2019 (non-energy),2019 (non énergétique),2019 (non-energy),#f6b4a4
-"2019 (oil & gas, refineries, fugitive sources)","2019 (pétrole, gaz, raffinage, incluant sources fugitives)","2019 (oil & gas, refineries, fugitive sources)",#ea5530
-2019 (other),2019 (autre),2019 (other),#f6b4a4
+2021 (energy),2021 (lié à l'énergie),2021 (energy),#ea5530
+2021 (non-energy),2021 (non énergétique),2021 (non-energy),#f6b4a4
+"2021 (oil & gas, refineries, fugitive sources)","2021 (pétrole, gaz, raffinage, incluant sources fugitives)","2021 (oil & gas, refineries, fugitive sources)",#ea5530
+2021 (other),2021 (autre),2021 (other),#f6b4a4
 AB,AB,AB,#d3c2ac
 Aérien,Aérien,Air,#9bd4dd
 Agriculture,Agriculture,Agriculture,#88b04b
-Agriculture (non-energy),Agriculture (hors énergie),Agriculture (non-energy),#88b04b
+Agriculture (non-energy),Agriculture (hors énergie),Agriculture (outside of energy use),#88b04b
 Agriculture and forestry (including non-energy),Agriculture et foresterie (incluant usages non énergétiques),Agriculture and forestry (including non-energy),#bdd030
 Agriculture and Forestry energy use,Utilisation d'énergie en agriculture et foresterie,Agriculture and forestry energy use,#bdd030
 Appliances,Électroménagers,Appliances,#f6b4a4
@@ -48,8 +48,8 @@ Carton - Standard,Carton – standard,Cardboard – Standard,#aa6647
 Caténaire diesel,Caténaire diesel,Diesel catenary,#e08787
 Caténaire électrique,Caténaire électrique,Electric catenary,#e8d4b7
 Caténaire gaz naturel,Caténaire gaz naturel,Natural gas catenary,#e85810
-CEO2018,PEC2018,CEO2018,#000000
-CEO2021,PEC2021,CEO2021,#f00070
+CEO2018,PEC2018,CEO2018,
+CEO2021,PEC2021,CEO2021,
 Chaleur,Chaleur,Heat,#d20a11
 Changement de carburant,Changement de carburant,Fuel change,#415243
 Charbon,Charbon,Coal,#ea5530
@@ -204,7 +204,7 @@ Pétrole brut,Pétrole brut,Crude oil,#7d4e24
 Poêle à bois ou aux granules,Poêle à bois ou aux granules,Wood or pellet stove,#ca9e67
 Poland,Pologne,Poland,#5487a4
 Portugal,Portugal,Portugal,#5487a4
-"Primary electricity (hydro, nuclear, tidal, solar and wind)","Électricité primaire (hydro, nucléaire, marée, solaire, éolien)","Primary electricity (hydro, nuclear, tidal, solar and wind)",#07d9f5
+Primary electricity,"Électricité primaire (hydro, nucléaire, éolien, solaire et marée)","Primary electricity (hydro, nuclear, wind, solar and tidal)",#07d9f5
 "Primary electricity, hydro and nuclear",Électricité primaire (hydro et nucléaire),"Primary electricity, hydro and nuclear",#9bd4dc
 Prince Edward Island,Île-duPrince-Édouard,Prince Edward Island,#ca9e67
 Producer consumption,Consommation des producteurs,Producer consumption,#bfa904
@@ -304,3 +304,5 @@ Réfrigérateur,Réfrigérateur,Refrigirator,#9bdb9a
 Autres appareils,Autres appareils,Other applicances,#f39200
 Équipement auxiliaire,Équipement auxiliaire,Auxiliary equipment,#c75833
 Moteur auxiliaire,Moteur auxiliaire,Auxiliary motor,#bff5c3
+Western Canadian Select (WCS),Western Canadian Select (WCS),Western Canadian Select (WCS),#4d5efc
+Western Texas Intermediary (WTI),Western Texas Intermediary (WTI),Western Texas Intermediary (WTI),#ea5530
